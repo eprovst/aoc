@@ -1,2 +1,2 @@
-# aoc-19
-Advent of Code 2019
+# aoc
+Advent of Code
