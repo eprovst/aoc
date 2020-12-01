@@ -1,12 +1,12 @@
-inp = open("input.in", 'r')
+inp = open("input", 'r')
 
-report = []
-for num in inp:
-    report.append(int(num))
+ns = set()
+for n in inp:
+    ns.add(int(n))
 
-N = len(report)
-for i in range(N):
-    for j in range(i, N):
-        if report[i] + report[j] == 2020:
-            print(report[i] * report[j])
-            exit(0)
+for n in ns:
+    if 2020 - n in ns:
+        print(n * (2020 - n))
+        exit(0)
+
+exit(1)
