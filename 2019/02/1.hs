@@ -1,15 +1,5 @@
-main :: IO()
-main = main2
-
-main1 :: IO ()
-main1 = getLine >>= \l -> print . (!! 0) . run $ parse l
-
-main2 :: IO ()
-main2 = getLine >>= \l -> print $ searchNV (parse l) !! 0
-
-searchNV :: [Int] -> [Int]
-searchNV p = [n*100 + v | n <- [0..99], v <- [0..99],
-              (== 19690720) . (!! 0) . run . replaceAt 1 n . replaceAt 2 v $ p]
+main :: IO ()
+main = getLine >>= \l -> print . (!! 0) . run $ parse l
 
 parse :: String -> [Int]
 parse = map read . splitOn ','

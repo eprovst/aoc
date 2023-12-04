@@ -6,28 +6,15 @@ data Mass = YOU | SAN | Obj !String
   deriving (Eq, Ord)
 
 main :: IO ()
-main = main2
-
-main1 :: IO ()
-main1 = do inputFile <- openFile "input" ReadMode
-           input <- hGetContents inputFile
-           print $ getNumOrbits input
+main = do inputFile <- openFile "input" ReadMode
+          input <- hGetContents inputFile
+          print $ getNumOrbits input
   where
     getNumOrbits :: String -> Int
     getNumOrbits = (\om ->
                       foldl (\c m ->
                                 c + (length . allOrbiters om) m
                             ) 0 (masses om)) . Map.fromList . map parse . lines
-
-main2 :: IO ()
-main2 = do inputFile <- openFile "input" ReadMode
-           input <- hGetContents inputFile
-           print $ getPathLen input
-  where
-    getPathLen :: String -> Int
-    getPathLen s = transfersBetween om (parent om YOU) (parent om SAN)
-      where
-        om = Map.fromList . map parse . lines $ s
 
 parent :: Map.Map Mass Mass -> Mass -> Mass
 parent om o = Map.findWithDefault (Obj "COM") o om
