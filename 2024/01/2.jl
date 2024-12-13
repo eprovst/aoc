@@ -1,9 +1,2 @@
-ll = Int[]
-rl = Int[]
-for l in readlines("input")
-    lc, rc = match(r"(\d+)\s+(\d+)", l).captures
-    push!(ll, parse(Int, lc))
-    push!(rl, parse(Int, rc))
-end
-
+ll, rl = map(l -> parse.(Int, split(l)), readlines("input")) |> eachrow ∘ stack
 println(sum(c * count(==(c), rl) for c in ll))
