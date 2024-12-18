@@ -1,18 +1,12 @@
-function tomap(d)
-    m = Vector{Union{Nothing, Int}}()
-    for (i, n) in enumerate(d)
-        isodd(i) && append!(m, repeat([i÷2], n))
-        iseven(i) && append!(m, repeat([nothing], n))
+using Base.Iterators
+tomap(d) = collect(flatten(repeated(isodd(i) ? i÷2 : nothing, n) for (i, n) in enumerate(d)))
+function compact!(m)
+    e = length(m)
+    while any(isnothing, @view m[1:e])
+        isnothing(m[e]) || (m[findfirst(isnothing, m)] = m[e])
+        e -= 1
     end
-    return m
-end
-function compact(m)
-    m = @view m[:]
-    while any(isnothing, m)
-        isnothing(m[end]) || (m[findfirst(isnothing, m)] = m[end])
-        m = @view m[1:end-1]
-    end
-    return m
+    return m[1:e]
 end
 checksum(m) = sum((i - 1) * n for (i, n) in enumerate(m))
-println(parse.(UInt, Char.(read("input"))) |> tomap |> compact |> checksum)
+println(parse.(Int, Char.(read("input"))) |> tomap |> compact! |> checksum)
